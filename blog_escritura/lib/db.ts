@@ -1,33 +1,41 @@
-import mongoose from "mongoose";
-import { cache } from "react";
+import mongoose, {Mongoose} from "mongoose";
 
-Import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
-    throw new Error("⚠️ MONGODB_URI is not defined in .env.local");
+    throw new Error("MONGODB_URI is not defined in .env.local");
 }
 
-// Evitar múltiples conexiones en desarrollo (hot reload de Next)
+/*
+  Esto define una variable global para evitar múltiples conexiones
+  durante el hot-reload de Next.js (solo en desarrollo).
+*/
+declare global {
+  // allow global `var` declarations
+  // eslint-disable-next-line no-var
+  var _mongoose: { conn: Mongoose | null; promise: Promise<Mongoose> | null };
+}
 
-let cached = (global as any).mongoose;
+let cached = global._mongoose;
 
 if (!cached) {
-    cached = (global as any).mongoose = { conn: null, promise: null};
+    cached = global._mongoose = { conn: null, promise: null};
 }
 
-export async function connectDB() {
+export async function connectDB(): Promise<Mongoose> {
     if (cached.conn) {
         return cached.conn;
     }
 
     if (!cached.promise) {
-        cached.promise = (await mongoose.connect(MONGODB_URI!)).then((mongoose) => {
-            console.log("Connected to MongoDB")
-        });
-    }
-}
+        const opts = {
+            bufferCommands: false,
+        };
 
-cached.conn = await cached.promise;
-return cached.conn;
+        cached.promise =  mongoose.connect(MONGODB_URI!).then((m) => m);
+    }
+
+    cached.conn = await cached.promise;
+    return cached.conn;
+}
