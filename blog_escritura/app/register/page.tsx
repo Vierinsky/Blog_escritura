@@ -79,7 +79,7 @@ export default function RegisterPage() {
                 <h1 className="text-2x1 font-semibold mb-4">Crear cuenta</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="blck md-1 text-sm" htmlFor="name">
+                        <label className="block md-1 text-sm" htmlFor="name">
                             Nombre
                         </label>
                         <input
