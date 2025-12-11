@@ -86,7 +86,7 @@ export default function RegisterPage() {
                             id="name"
                             name="name"
                             type="text"
-                            className="w-full round border-slate-600 bg.slate-900 px-3 py-2"
+                            className="w-full round border-slate-600 bg-slate-900 px-3 py-2"
                             value={form.name}
                             onChange={handleChange}
                             required
