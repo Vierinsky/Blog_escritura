@@ -33,7 +33,7 @@ export default function RegisterPage() {
         setForm((prev) => ({
             ...prev,
             [name]: value,
-            }));
+        }));
     }
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
