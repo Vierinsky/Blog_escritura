@@ -31,7 +31,7 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
-    const result = await singIn("credentials", {
+    const result = await signIn("credentials", {
       email: form.email,
       password: form.password,
       redirect: false,
